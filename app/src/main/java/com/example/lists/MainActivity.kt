@@ -60,8 +60,19 @@ class MainActivity : ComponentActivity() {
         Surface(color = Color.White) {
             Box(modifier = Modifier.fillMaxSize()) {
                 // TODO 5: Use a vertical list that composes and displays only the visible items.
-                // TODO 6: Make use of Compose DSL to describe the content of the list and make sure
-                // to instantiate a [ChiuitListItem] for every item in [chiuitListState.value].
+
+                LazyColumn (
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    // TODO 6: Make use of Compose DSL to describe the content of the list and make sure
+                    // to instantiate a [ChiuitListItem] for every item in [chiuitListState.value].
+
+                    items(chiuitListState.value) { chiuit ->
+                        ChiuitListItem(chiuit = chiuit)
+
+                    }
+                }
+
                 FloatingActionButton(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
@@ -134,8 +145,6 @@ class MainActivity : ComponentActivity() {
 
         resultLauncher.launch(intent)
 
-        // TODO 3: Start a new activity with the previously defined intent.
-
 
     }
 
@@ -144,6 +153,10 @@ class MainActivity : ComponentActivity() {
 
         //  then add it to the [chiuitListState.value].
 
+        if(!resultText.isNullOrEmpty()) {
+            val newChiuit = Chiuit(description = resultText)
+            chiuitListState.value = chiuitListState.value + newChiuit
+        }
     }
 
     @Preview(showBackground = true)
